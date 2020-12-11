@@ -37,7 +37,7 @@ module.exports = (env, options) => {
               plugins: ["@babel/plugin-proposal-class-properties"]
             }
           }
-        }, 
+        },
         {
           test: /\.css$/,
         use: [
@@ -68,7 +68,7 @@ module.exports = (env, options) => {
       new CopyPlugin({
         patterns: [
           // { from: 'src/audio', to: 'audio' },
-          { from: 'src/img', to: 'img' },
+          { from: 'src/assets/img', to: 'img' },
         ],
       }),
       new HtmlWebpackPlugin({
