@@ -1,0 +1,38 @@
+.content-leftSide {
+    flex-basis: 13%;
+}
+
+.content-leftSide-globalCases {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px 0;
+}
+
+.content-leftSide-globalCases__header {
+    color: #ffff;
+    font-weight: 400;
+    padding-bottom: 5px;
+}
+
+.content-leftSide-globalCases__counter {
+    color: #E60000;
+    /*color: #930E0E;*/
+}
+
+.content-leftSide-cases__header {
+    text-align: center;
+    font-size: .8rem;
+}
+
+.content-leftSide-cases__counter-digit {
+    color: #E60000;
+}
+
+.content-leftSide-cases__counter-cases {
+    color: #930E0E;
+}
+.content-leftSide-cases__counter-country{
+    color: #ffff;
+}

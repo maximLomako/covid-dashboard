@@ -52,12 +52,10 @@ body {
     border: 1px solid #363636;
     background: #222222;
 }
-.content-leftSide {
-    flex-basis: 15%;
-}
+
 .content-center {
     flex-basis: 62%;
 }
 .content-rightSide {
-    flex-basis: 20%;
+    flex-basis: 23%;
 }
