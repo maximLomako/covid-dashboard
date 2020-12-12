@@ -1,0 +1,14 @@
+.content-center__control {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.content-center__map {
+  width: 100%;
+  height: calc( 100% - 30px );
+}
+.content-center__control label {
+  margin-right: 15px;
+}

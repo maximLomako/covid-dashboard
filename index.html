@@ -114,8 +114,50 @@
 
       </div>
     </div>
-    <div class="wrapper content-center">map</div>
-    <div class="wrapper content-rightSide">right</div>
+    <div class="wrapper content-center">
+      <div class="content-center__control">
+        <label>Select period <select>
+          <option value="all" checked>All period</option>
+          <option value="last">Last Day</option>
+        </select></label>
+        <label>Select units <select>
+          <option value="abs" checked>In absolute</option>
+          <option value="per-handr">Per 100.000</option>
+        </select></label>
+      </div>
+      <div class="content-center__map" id="map"></div>
+    </div>
+    <div class="wrapper content-rightSide">
+      <div class="wrapper content-rightSide-table">
+        <div class="content-rightSide-table__title">Global</div>
+        <div class="content-rightSide-table__control">
+          <label>Select period <br> <select id="switcher-period">
+            <option value="all" checked>All period</option>
+            <option value="last">Last Day</option>
+          </select></label>
+          <label>Select units <br> <select id="switcher-units">
+            <option value="abs" checked>In absolute</option>
+            <option value="per-handr">Per 100.000</option>
+          </select></label>
+        </div>
+        <table class="content-rightSide-table__content">
+          <thead>
+            <tr>
+              <th>Cases</th>
+              <th>Death</th>
+              <th>Recovered</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="cases-value">69,547,459</td>
+              <td id="death-value">1,581,734</td>
+              <td id="recovered-value">48,236,657</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </section>
   <footer class="footer"></footer>
 </div>
