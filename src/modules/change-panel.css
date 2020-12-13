@@ -1,0 +1,10 @@
+.change-panel {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+}
+.arrow {
+    height: 15px;
+    width: 15px;
+    filter: contrast(0.5);
+}

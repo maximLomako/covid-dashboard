@@ -21,9 +21,13 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 400px;
-    overflow-x: scroll;
     margin-top: 10px;
+}
+
+.content-leftSide-cases__items {
+    width: 100%;
+    height: 453px;
+    overflow-y: scroll;
 }
 
 .content-leftSide-cases__item {
@@ -41,7 +45,7 @@
 
 .content-leftSide-globalCases__counter {
     color: #E60000;
-    /*color: #930E0E;*/
+    font-size: 2rem;
 }
 
 .content-leftSide-cases__header {
@@ -64,4 +68,21 @@
 }
 .content-leftSide-cases__counter-city {
     padding-left: 5px;
+}
+
+.last-updated-panel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 5px;
+    margin-top: 10px;
+}
+
+.last-updated__header {
+    font-size: 0.8rem;
+}
+.last-updated__date {
+    font-size: 1.1rem;
+    font-weight: bold;
 }
