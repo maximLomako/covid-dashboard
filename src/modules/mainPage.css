@@ -28,7 +28,7 @@ body {
 .header {
     display: flex;
     align-items: center;
-
+    margin-top: 10px;
     font-size: 1.3rem;
     padding: 5px;
     letter-spacing: 3px;
@@ -45,7 +45,6 @@ body {
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
-    height: 90vh;
     width: 100%;
 }
 .wrapper {
@@ -54,9 +53,9 @@ body {
 }
 
 .content-center {
-    flex-basis: 62%;
+    flex-basis: 58%;
     margin: 0 10px;
 }
 .content-rightSide {
-    flex-basis: 23%;
+    flex-basis: 27%;
 }
