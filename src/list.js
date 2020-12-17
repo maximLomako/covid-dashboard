@@ -3,6 +3,11 @@ import dataCountries from "./dataCountries";
 const contentLeftSideCasesItems = document.querySelector(".content-leftSide-cases__items");
 const contentLeftSideCasesInput = document.querySelector(".content-leftSide-cases__input");
 const contentLeftSideCasesIcon = document.querySelector(".content-leftSide-cases__icon");
+const switcherIndicatorsList = document.querySelector("#switcher-indicators-list");
+const switcherPeriodList = document.querySelector("#switcher-period-list");
+const switcherUnitsList = document.querySelector("#switcher-units-list");
+
+
 
 const renderList = (data) => {
   contentLeftSideCasesItems.innerHTML = "";
@@ -43,5 +48,5 @@ renderList(dataCountries);
 contentLeftSideCasesInput.addEventListener('input', filterCountryByName);
 contentLeftSideCasesIcon.addEventListener('mouseover', addAnimationToKeyboardIcon);
 contentLeftSideCasesIcon.addEventListener('click', () => {
-  console.log(1);
+  console.log("open keyboard");
 });
