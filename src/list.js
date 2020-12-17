@@ -1,9 +1,12 @@
 import dataCountries from "./dataCountries";
+
 const contentLeftSideCasesItems = document.querySelector(".content-leftSide-cases__items");
 const contentLeftSideCasesInput = document.querySelector(".content-leftSide-cases__input");
+const contentLeftSideCasesIcon = document.querySelector(".content-leftSide-cases__icon");
 
-const renderList = () => {
-  dataCountries.map((el, i) =>
+const renderList = (data) => {
+  contentLeftSideCasesItems.innerHTML = "";
+  data.map((el) =>
     contentLeftSideCasesItems.insertAdjacentHTML('beforeend', `
           <div class="content-leftSide-cases__item">
             <div class="content-leftSide-cases__counter">
@@ -19,18 +22,26 @@ const renderList = () => {
           </div>`));
 }
 
-const descendingSort = () => {
-  dataCountries.sort((a, b) => a.cases - b.cases)
-}
-
 const sortAscending = () => {
   dataCountries.sort((a, b) => b.cases - a.cases)
 }
 
-const filterCountry = () => {
-
+const filterCountryByName = (e) => {
+  let value = e.currentTarget.value;
+  const newDataCountries = dataCountries
+    .filter((c) => c.country.toLowerCase().includes(value.toLowerCase()))
+  renderList(newDataCountries);
 }
-filterCountry();
-sortAscending();
-renderList();
 
+const addAnimationToKeyboardIcon = () => {
+  contentLeftSideCasesIcon.classList.toggle("bounce-top");
+}
+
+sortAscending();
+renderList(dataCountries);
+
+contentLeftSideCasesInput.addEventListener('input', filterCountryByName);
+contentLeftSideCasesIcon.addEventListener('mouseover', addAnimationToKeyboardIcon);
+contentLeftSideCasesIcon.addEventListener('click', () => {
+  console.log(1);
+});

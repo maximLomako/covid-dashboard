@@ -23,12 +23,17 @@
       </div>
       <div class="wrapper content-leftSide-cases">
         <div class="content-leftSide-cases__item">
-          <h3 class="content-leftSide-cases__header">
-            Cases by Country/Region/Sovereignty
-          </h3>
           <input type="text" placeholder="Enter country name ..." class="content-leftSide-cases__input">
+          <img src="./src/assets/img/keyboard.svg" class="content-leftSide-cases__icon" alt="keyboard-icon">
         </div>
         <div class="content-leftSide-cases__item">
+          <label>Select rate
+            <select id="switcher-indicators">
+              <option value="abs" checked>Number of cases</option>
+              <option value="per-handr">Number of deaths</option>
+              <option value="per-handr">Number of recovered</option>
+            </select>
+          </label>
           <label>Select period
             <select>
               <option value="all" checked>All period</option>
@@ -44,15 +49,6 @@
         </div>
         <div class="content-leftSide-cases__items">
 
-        </div>
-      </div>
-      <div class="change-panel wrapper">
-        <div class="prev-btn arrow change-panel-btn">
-          <img src="./src/assets/img/left-arrow.svg" alt="prev-btn">
-        </div>
-        <div class="change-panel__title">Admin1</div>
-        <div class="next-btn arrow change-panel-btn">
-          <img src="./src/assets/img/right-arrow.svg" alt="next-btn">
         </div>
       </div>
       <div class="last-updated-panel wrapper">
