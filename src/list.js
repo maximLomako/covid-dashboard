@@ -2,8 +2,8 @@ import dataCountries from "./dataCountries";
 import dashboard from "./dashboard";
 
 const contentLeftSideCasesItems = document.querySelector(".content-leftSide-cases__items");
-const contentLeftSideCasesInput = document.querySelector(".content-leftSide-cases__input");
-const contentLeftSideCasesIcon = document.querySelector(".content-leftSide-cases__icon");
+const contentLeftSideCasesInput = document.querySelector(".use-keyboard-input");
+export const contentLeftSideCasesIcon = document.querySelector(".content-leftSide-cases__icon");
 const switcherIndicatorsList = document.querySelector("#switcher-indicators-list");
 const switcherPeriodList = document.querySelector("#switcher-period-list");
 const switcherUnitsList = document.querySelector("#switcher-units-list");
@@ -32,11 +32,15 @@ const sortAscending = () => {
   dataCountries.sort((a, b) => b.cases - a.cases)
 }
 
-const filterCountryByName = (e) => {
-  let value = e.currentTarget.value;
+export const filterCountryByName = () => {
   const newDataCountries = dataCountries
-    .filter((c) => c.country.toLowerCase().includes(value.toLowerCase()))
+    .filter((c) => c.country.toLowerCase().includes(dashboard.getDataInputValue().toLowerCase()))
   renderList(newDataCountries);
+}
+
+const changeDashboardValueByKeyboard = (e) => {
+  dashboard.dataInput = e.target.value;
+  filterCountryByName();
 }
 
 const addAnimationToKeyboardIcon = () => {
@@ -46,8 +50,6 @@ const addAnimationToKeyboardIcon = () => {
 sortAscending();
 renderList(dataCountries);
 
-contentLeftSideCasesInput.addEventListener('input', filterCountryByName);
+contentLeftSideCasesInput.addEventListener('input', changeDashboardValueByKeyboard);
 contentLeftSideCasesIcon.addEventListener('mouseover', addAnimationToKeyboardIcon);
-contentLeftSideCasesIcon.addEventListener('click', () => {
-  console.log("open keyboard");
-});
+
