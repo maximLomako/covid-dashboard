@@ -73,7 +73,7 @@ const Keyboard = {
       switch (key) {
         case "backspace":
           keyElement.classList.add("keyboard__key--wide");
-          keyElement.innerHTML = createIconHTML("backspace");
+          keyElement.innerHTML = createIconHTML("<<");
 
           keyElement.addEventListener("click", () => {
             dashboard.dataInput = dashboard.getDataInputValue().substring(0, dashboard.getDataInputValue().length - 1);
