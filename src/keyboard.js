@@ -677,6 +677,7 @@ const Keyboard = {
 
       //Insert from  keyboard
       element.addEventListener("keypress", key => {
+
         this.properties.value += key.key;
         this.open(element.value, currentValue => {
           if (this.properties.start > element.value.length) {

@@ -1,4 +1,5 @@
 import dataCountries from "./dataCountries";
+import dashboard from "./dashboard";
 
 const contentLeftSideCasesItems = document.querySelector(".content-leftSide-cases__items");
 const contentLeftSideCasesInput = document.querySelector(".content-leftSide-cases__input");
