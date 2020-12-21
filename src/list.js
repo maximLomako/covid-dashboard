@@ -13,7 +13,6 @@ let newDataCountries = dataCountries.filter((c) => {
     return c.country.toLowerCase().includes(dashboard.getDataInputValue().toLowerCase())
   }
 });
-let fullScreenList = false;
 
 const renderList = (data) => {
 
@@ -120,6 +119,7 @@ export const filterCountryByName = () => {
         return c.country.toLowerCase().includes(dashboard.getDataInputValue().toLowerCase())
       }
     })
+  sortAscending();
   renderList(newDataCountries);
 }
 const changeDashboardValueByKeyboard = (e) => {
@@ -138,13 +138,12 @@ const chooseCountry = (e) => {
 const openFullScreenList = (e) => {
   const target = e.target;
   if (target.classList.contains('content-leftSide-cases__share-icon')) {
-    if (fullScreenList) {
-      document.exitFullscreen();
+    if (document.fullscreenElement !== null) {
+      document.exitFullscreen()
     } else {
       contentLeftSideCases.requestFullscreen()
     }
-    fullScreenList = !fullScreenList;
-    console.log(1);
+    e.target.classList.toggle('content-leftSide-cases__share-icon--active');
   }
 }
 

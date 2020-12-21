@@ -37,12 +37,9 @@
 
 }
 
-content-leftSide-cases__share-icon:hover {
+.content-leftSide-cases__share-icon--active {
     filter: invert(1);
     transition: filter 1s;
-    background: red;
-    cursor: pointer;
-
 }
 
 .content-leftSide-cases__input {

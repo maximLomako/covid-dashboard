@@ -8,7 +8,6 @@ class Dashboard {
     this.rate = 'cases'
     this.dataInput = '';
   }
-
   getCurrentFilterIsAbsoluteTermsValue() {
     return this.currentFilter.isAbsoluteTerms;
   }
