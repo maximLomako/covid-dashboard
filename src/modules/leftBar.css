@@ -64,6 +64,9 @@
     border-bottom: 1px solid #363636;
     width: 100%;
 }
+.content-leftSide-cases__item:hover {
+   background: #333235;
+}
 
 .content-leftSide-cases__counter {
     display: flex;

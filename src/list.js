@@ -12,14 +12,34 @@ let newDataCountries = [...dataCountries];
 const renderList = (data) => {
 
   contentLeftSideCasesItems.innerHTML = "";
-  data.map((el) =>
-    contentLeftSideCasesItems.insertAdjacentHTML('beforeend', `
+  data.map((el) => {
+
+      let counterDigit = null;
+
+      if (dashboard.getCurrentFilterIsAbsoluteTermsValue()) {
+        if (!dashboard.getCurrentFilterIsAllPeriodValue()) {
+          let str = dashboard.getRateValue().charAt(0).toUpperCase() + dashboard.getRateValue().slice(1);
+          counterDigit = el[`today${str}`]
+        } else {
+          counterDigit = el[dashboard.getRateValue()]
+        }
+      } else if (!dashboard.getCurrentFilterIsAbsoluteTermsValue()) {
+        if (!dashboard.getCurrentFilterIsAllPeriodValue()) {
+          let str = dashboard.getRateValue().charAt(0).toUpperCase() + dashboard.getRateValue().slice(1);
+          counterDigit = Math.round(el[`today${str}`] * 100000 / el.population)
+        } else {
+          counterDigit = Math.round(el[dashboard.getRateValue()] * 100000 / el.population)
+        }
+        if (counterDigit === NaN || counterDigit === Infinity) {
+          counterDigit = 0
+        }
+      }
+
+      return contentLeftSideCasesItems.insertAdjacentHTML('beforeend', `
           <div class="content-leftSide-cases__item">
             <div class="content-leftSide-cases__counter">
               <div class="content-leftSide-cases__counter-digit">
-     ${dashboard.getCurrentFilterIsAbsoluteTermsValue() ?
-      (dashboard.getCurrentFilterIsAllPeriodValue() ? el[dashboard.getRateValue()] : el.todayCases)
-      : Math.round(((dashboard.getCurrentFilterIsAllPeriodValue() ? el[dashboard.getRateValue()] : el.todayCases) * 100000) / el.population)}
+                ${counterDigit}
               </div>
               <div class="content-leftSide-cases__counter-cases">${dashboard.getRateValue()}</div>
             </div>
@@ -29,12 +49,15 @@ const renderList = (data) => {
               <img src="${el.countryInfo.flag}" alt="flag">
               </div>
             </div>
-          </div>`));
+          </div>`);
+    }
+  )
 }
 
 const changeSelectRateHandler = (e) => {
   const target = e.target.value;
   dashboard.rate = target
+  e.target.value = dashboard.getRateValue();
   sortAscending();
   renderList(newDataCountries);
 }
@@ -42,9 +65,11 @@ const changeSelectPeriodHandler = (e) => {
   const target = e.target.value;
   if (target === 'all') {
     dashboard.currentFilter.isAllPeriod = true
+    e.target.value = 'all';
   }
   if (target === 'last') {
     dashboard.currentFilter.isAllPeriod = false
+    e.target.value = 'last';
   }
   sortAscending();
   renderList(newDataCountries);
@@ -53,18 +78,35 @@ const changeSelectUnitsHandler = (e) => {
   const target = e.target.value;
   if (target === 'abs') {
     dashboard.currentFilter.isAbsoluteTerms = true
+    e.target.value = 'abs';
   }
   if (target === 'per-handr') {
     dashboard.currentFilter.isAbsoluteTerms = false
+    e.target.value = 'per-handr';
   }
   sortAscending();
   renderList(newDataCountries);
 }
 const sortAscending = () => {
-  newDataCountries.sort((a, b) => b[dashboard.getRateValue()] - a[dashboard.getRateValue()])
+  if (dashboard.getCurrentFilterIsAbsoluteTermsValue()) {
+    if (!dashboard.getCurrentFilterIsAllPeriodValue()) {
+      let str = dashboard.getRateValue().charAt(0).toUpperCase() + dashboard.getRateValue().slice(1);
+      newDataCountries.sort((a, b) => b[`today${str}`] - a[`today${str}`])
+    } else {
+      newDataCountries.sort((a, b) => b[dashboard.getRateValue()] - a[dashboard.getRateValue()])
+    }
+  } else if (!dashboard.getCurrentFilterIsAbsoluteTermsValue()) {
+    if (!dashboard.getCurrentFilterIsAllPeriodValue()) {
+      let str = dashboard.getRateValue().charAt(0).toUpperCase() + dashboard.getRateValue().slice(1);
+      newDataCountries.sort((a, b) =>
+        b[`today${str}`] * 100000 / b.population - a[`today${str}`] * 100000 / a.population)
+    } else {
+      newDataCountries.sort((a, b) => b[dashboard.getRateValue()] * 100000 / b.population - a[dashboard.getRateValue()] * 100000 / a.population)
+    }
+  }
 }
 export const filterCountryByName = () => {
-   newDataCountries = dataCountries
+  newDataCountries = dataCountries
     .filter((c) => c.country.toLowerCase().includes(dashboard.getDataInputValue().toLowerCase()))
   renderList(newDataCountries);
 }
@@ -75,10 +117,17 @@ const changeDashboardValueByKeyboard = (e) => {
 const addAnimationToKeyboardIcon = () => {
   contentLeftSideCasesIcon.classList.toggle("bounce-top");
 }
+const chooseCountry = (e) => {
+  const target = e.target;
+  if (target.closest('.content-leftSide-cases__item')) {
+    dashboard.currentCountry = (target.closest('.content-leftSide-cases__item').children[1].children[0].textContent)
+  }
+}
 
 sortAscending();
 renderList(newDataCountries);
 
+contentLeftSideCasesItems.addEventListener('click', chooseCountry)
 contentLeftSideCasesInput.addEventListener('input', changeDashboardValueByKeyboard);
 contentLeftSideCasesIcon.addEventListener('mouseover', addAnimationToKeyboardIcon);
 switcherIndicatorsList.addEventListener('change', changeSelectRateHandler);
