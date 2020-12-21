@@ -1,13 +1,19 @@
 import dataCountries from "./dataCountries";
 import dashboard from "./dashboard";
 
+const contentLeftSideCases = document.querySelector(".content-leftSide-cases");
 const contentLeftSideCasesItems = document.querySelector(".content-leftSide-cases__items");
 const contentLeftSideCasesInput = document.querySelector(".use-keyboard-input");
 export const contentLeftSideCasesIcon = document.querySelector(".content-leftSide-cases__icon");
 const switcherIndicatorsList = document.querySelector("#switcher-indicators-list");
 const switcherPeriodList = document.querySelector("#switcher-period-list");
 const switcherUnitsList = document.querySelector("#switcher-units-list");
-let newDataCountries = [...dataCountries];
+let newDataCountries = dataCountries.filter((c) => {
+  if (c.country !== 'MS Zaandam' && c.country !== 'Diamond Princess') {
+    return c.country.toLowerCase().includes(dashboard.getDataInputValue().toLowerCase())
+  }
+});
+let fullScreenList = false;
 
 const renderList = (data) => {
 
@@ -22,6 +28,9 @@ const renderList = (data) => {
           counterDigit = el[`today${str}`]
         } else {
           counterDigit = el[dashboard.getRateValue()]
+        }
+        if (counterDigit === NaN || counterDigit === Infinity) {
+          counterDigit = 0
         }
       } else if (!dashboard.getCurrentFilterIsAbsoluteTermsValue()) {
         if (!dashboard.getCurrentFilterIsAllPeriodValue()) {
@@ -53,7 +62,6 @@ const renderList = (data) => {
     }
   )
 }
-
 const changeSelectRateHandler = (e) => {
   const target = e.target.value;
   dashboard.rate = target
@@ -107,7 +115,11 @@ const sortAscending = () => {
 }
 export const filterCountryByName = () => {
   newDataCountries = dataCountries
-    .filter((c) => c.country.toLowerCase().includes(dashboard.getDataInputValue().toLowerCase()))
+    .filter((c) => {
+      if (c.country !== 'MS Zaandam' && c.country !== 'Diamond Princess') {
+        return c.country.toLowerCase().includes(dashboard.getDataInputValue().toLowerCase())
+      }
+    })
   renderList(newDataCountries);
 }
 const changeDashboardValueByKeyboard = (e) => {
@@ -123,14 +135,27 @@ const chooseCountry = (e) => {
     dashboard.currentCountry = (target.closest('.content-leftSide-cases__item').children[1].children[0].textContent)
   }
 }
+const openFullScreenList = (e) => {
+  const target = e.target;
+  if (target.classList.contains('content-leftSide-cases__share-icon')) {
+    if (fullScreenList) {
+      document.exitFullscreen();
+    } else {
+      contentLeftSideCases.requestFullscreen()
+    }
+    fullScreenList = !fullScreenList;
+    console.log(1);
+  }
+}
 
 sortAscending();
 renderList(newDataCountries);
 
-contentLeftSideCasesItems.addEventListener('click', chooseCountry)
+contentLeftSideCasesItems.addEventListener('click', chooseCountry);
 contentLeftSideCasesInput.addEventListener('input', changeDashboardValueByKeyboard);
 contentLeftSideCasesIcon.addEventListener('mouseover', addAnimationToKeyboardIcon);
 switcherIndicatorsList.addEventListener('change', changeSelectRateHandler);
 switcherUnitsList.addEventListener("change", changeSelectUnitsHandler);
 switcherPeriodList.addEventListener('change', changeSelectPeriodHandler);
+contentLeftSideCases.addEventListener('click', openFullScreenList);
 

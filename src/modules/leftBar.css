@@ -17,11 +17,32 @@
 }
 
 .content-leftSide-cases {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     margin-top: 10px;
+}
+
+.content-leftSide-cases__share-icon {
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    top: 0%;
+    right: 0%;
+    filter: contrast(.5);
+    cursor: pointer;
+    z-index: 999;
+
+}
+
+content-leftSide-cases__share-icon:hover {
+    filter: invert(1);
+    transition: filter 1s;
+    background: red;
+    cursor: pointer;
+
 }
 
 .content-leftSide-cases__input {
@@ -64,8 +85,10 @@
     border-bottom: 1px solid #363636;
     width: 100%;
 }
+
 .content-leftSide-cases__item:hover {
-   background: #333235;
+    background: #333235;
+    cursor: pointer;
 }
 
 .content-leftSide-cases__counter {
