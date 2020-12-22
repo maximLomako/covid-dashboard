@@ -1,4 +1,3 @@
-import dataCountries from "./dataCountries";
 import dashboard from "./dashboard";
 
 const contentLeftSideGlobalCasesCounter = document.querySelector(".content-leftSide-globalCases__counter");
@@ -10,11 +9,7 @@ const switcherIndicatorsList = document.querySelector("#switcher-indicators-list
 const switcherPeriodList = document.querySelector("#switcher-period-list");
 const switcherUnitsList = document.querySelector("#switcher-units-list");
 const lastUpdatedDate = document.querySelector(".last-updated__date");
-let newDataCountries = dataCountries.filter((c) => {
-  if (c.country !== 'MS Zaandam' && c.country !== 'Diamond Princess') {
-    return c.country.toLowerCase().includes(dashboard.getDataInputValue().toLowerCase())
-  }
-});
+let newDataCountries = []
 
 const renderGlobalCases = (data) => {
   contentLeftSideGlobalCasesCounter.textContent = data.reduce((acc, el) => acc + el.cases, 0)
@@ -72,7 +67,7 @@ const changeSelectRateHandler = (e) => {
   dashboard.rate = target
   e.target.value = dashboard.getRateValue();
   sortAscending();
-  renderList(newDataCountries);
+  renderList(filterCountryByName());
 }
 const changeSelectPeriodHandler = (e) => {
   const target = e.target.value;
@@ -85,7 +80,7 @@ const changeSelectPeriodHandler = (e) => {
     e.target.value = 'last';
   }
   sortAscending();
-  renderList(newDataCountries);
+  renderList(filterCountryByName());
 }
 const changeSelectUnitsHandler = (e) => {
   const target = e.target.value;
@@ -98,7 +93,7 @@ const changeSelectUnitsHandler = (e) => {
     e.target.value = 'per-handr';
   }
   sortAscending();
-  renderList(newDataCountries);
+  renderList(filterCountryByName());
 }
 const sortAscending = () => {
   if (dashboard.getCurrentFilterIsAbsoluteTermsValue()) {
@@ -119,14 +114,15 @@ const sortAscending = () => {
   }
 }
 export const filterCountryByName = () => {
-  newDataCountries = dataCountries
+  let filteredCountries = newDataCountries
     .filter((c) => {
       if (c.country !== 'MS Zaandam' && c.country !== 'Diamond Princess') {
         return c.country.toLowerCase().includes(dashboard.getDataInputValue().toLowerCase())
       }
     })
   sortAscending();
-  renderList(newDataCountries);
+  renderList(filteredCountries);
+  return filteredCountries;
 }
 const changeDashboardValueByKeyboard = (e) => {
   dashboard.dataInput = e.target.value;
@@ -153,9 +149,20 @@ const openFullScreenList = (e) => {
   }
 }
 
-sortAscending();
-renderList(newDataCountries);
-renderGlobalCases(newDataCountries);
+fetch('https://disease.sh/v3/covid-19/countries')
+  .then((response) => {
+    return response.json();
+  })
+  .then((data) => {
+    newDataCountries = data.filter((c) => {
+      if (c.country !== 'MS Zaandam' && c.country !== 'Diamond Princess') {
+        return c.country.toLowerCase().includes(dashboard.getDataInputValue().toLowerCase())
+      }
+    });
+    sortAscending();
+    renderList(newDataCountries);
+    renderGlobalCases(newDataCountries);
+  });
 
 contentLeftSideCasesItems.addEventListener('click', chooseCountry);
 contentLeftSideCasesInput.addEventListener('input', changeDashboardValueByKeyboard);
