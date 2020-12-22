@@ -1,6 +1,7 @@
 import dataCountries from "./dataCountries";
 import dashboard from "./dashboard";
 
+const contentLeftSideGlobalCasesCounter = document.querySelector(".content-leftSide-globalCases__counter");
 const contentLeftSideCases = document.querySelector(".content-leftSide-cases");
 const contentLeftSideCasesItems = document.querySelector(".content-leftSide-cases__items");
 const contentLeftSideCasesInput = document.querySelector(".use-keyboard-input");
@@ -8,14 +9,19 @@ export const contentLeftSideCasesIcon = document.querySelector(".content-leftSid
 const switcherIndicatorsList = document.querySelector("#switcher-indicators-list");
 const switcherPeriodList = document.querySelector("#switcher-period-list");
 const switcherUnitsList = document.querySelector("#switcher-units-list");
+const lastUpdatedDate = document.querySelector(".last-updated__date");
 let newDataCountries = dataCountries.filter((c) => {
   if (c.country !== 'MS Zaandam' && c.country !== 'Diamond Princess') {
     return c.country.toLowerCase().includes(dashboard.getDataInputValue().toLowerCase())
   }
 });
 
+const renderGlobalCases = (data) => {
+  contentLeftSideGlobalCasesCounter.textContent = data.reduce((acc, el) => acc + el.cases, 0)
+  contentLeftSideGlobalCasesCounter.textContent = contentLeftSideGlobalCasesCounter.textContent
+    .toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+}
 const renderList = (data) => {
-
   contentLeftSideCasesItems.innerHTML = "";
   data.map((el) => {
 
@@ -149,6 +155,7 @@ const openFullScreenList = (e) => {
 
 sortAscending();
 renderList(newDataCountries);
+renderGlobalCases(newDataCountries);
 
 contentLeftSideCasesItems.addEventListener('click', chooseCountry);
 contentLeftSideCasesInput.addEventListener('input', changeDashboardValueByKeyboard);
