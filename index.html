@@ -24,7 +24,8 @@
       <div class="wrapper content-leftSide-cases">
         <img src="./src/assets/img/share.svg" alt="share icon" class="content-leftSide-cases__share-icon">
         <div class="content-leftSide-cases__item">
-          <input type="text" placeholder="Enter country name ..." class="content-leftSide-cases__input use-keyboard-input" onblur="this.focus()" autofocus >
+          <input type="text" placeholder="Enter country name ..."
+                 class="content-leftSide-cases__input use-keyboard-input" onblur="this.focus()" autofocus>
           <img src="./src/assets/img/keyboard.svg" class="content-leftSide-cases__icon" alt="keyboard-icon">
         </div>
         <div class="content-leftSide-cases__item">
@@ -70,7 +71,7 @@
       </div>
       <div class="content-center__map" id="map"></div>
     </div>
-    <div class="wrapper content-rightSide">
+    <div class="content-rightSide">
       <div class="wrapper content-rightSide-table">
         <div class="content-rightSide-table__title">Global</div>
         <div class="content-rightSide-table__control">
@@ -99,6 +100,32 @@
           </tr>
           </tbody>
         </table>
+      </div>
+      <div class="wrapper content-rightSide__chart">
+        <img src="./src/assets/img/share.svg" alt="share icon"
+             class="content-leftSide-cases__share-icon content-rightSide__chart-icon">
+        <div class="content-rightSide__chart-select">
+          <label class="label-chart">Select rate
+            <select id="switcher-indicators-chart">
+              <option value="cases" checked>Number of cases</option>
+              <option value="deaths">Number of deaths</option>
+              <option value="recovered">Number of recovered</option>
+            </select>
+          </label>
+          <label class="label-chart">Select period
+            <select id="switcher-period-chart">
+              <option value="all" checked>All period</option>
+              <option value="last">Last Day</option>
+            </select>
+          </label>
+          <label class="label-chart">Select units
+            <select id="switcher-units-chart">
+              <option value="abs" checked>In absolute</option>
+              <option value="per-handr">Per 100.000</option>
+            </select>
+          </label>
+        </div>
+        <canvas class="myChart" id="myChart" width="350" height="350"></canvas>
       </div>
     </div>
   </section>
