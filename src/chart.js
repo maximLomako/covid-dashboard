@@ -129,7 +129,38 @@ const changeSelectUnitsHandlerChart = (e) => {
 
 getData();
 
-switcherIndicatorsChart.addEventListener('change', changeSelectRateHandlerChart);
-switcherUnitsChart.addEventListener("change", changeSelectUnitsHandlerChart);
-switcherPeriodChart.addEventListener('change', changeSelectPeriodHandlerChart);
+switcherIndicatorsChart.addEventListener('change', (e) => {
+  changeSelectRateHandlerChart(e);
+  document.dispatchEvent(new CustomEvent('filterRateChanged', {
+    detail: switcherIndicatorsChart.value,
+  }));
+});
+switcherUnitsChart.addEventListener('change', (e) => {
+  changeSelectUnitsHandlerChart(e);
+  document.dispatchEvent(new CustomEvent('filterUnitsChanged', {
+    detail: switcherUnitsChart.value,
+  }));
+});
+switcherPeriodChart.addEventListener('change', (e) => {
+  changeSelectPeriodHandlerChart(e);
+  document.dispatchEvent(new CustomEvent('filterPeriodChanged', {
+    detail: switcherPeriodChart.value,
+  }));
+});
 contentRightSideChart.addEventListener('click', openFullScreenList);
+
+document.addEventListener('filterPeriodChanged', (e) => {
+  switcherPeriodChart.value = e.detail;
+  getData();
+});
+document.addEventListener('filterUnitsChanged', (e) => {
+  switcherUnitsChart.value = e.detail;
+  getData();
+});
+document.addEventListener('filterRateChanged', (e) => {
+  switcherIndicatorsChart.value = e.detail;
+  getData();
+});
+document.addEventListener('countryChanged', () => {
+  getData();
+});
