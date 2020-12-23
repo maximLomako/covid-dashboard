@@ -58,5 +58,8 @@ body {
 
 }
 .content-rightSide {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     flex-basis: 27%;
 }

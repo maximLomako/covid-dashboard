@@ -9,6 +9,8 @@ import gradesObj from './grades';
 const mapSwitcherRate = document.querySelector('#map-switcher-rate');
 const mapSwitcherPeriod = document.querySelector('#map-switcher-period');
 const mapSwitcherUnits = document.querySelector('#map-switcher-units');
+const contentCenter = document.querySelector('.content-center');
+const contentCenterShareIcon = document.querySelector('.content-center__share-icon');
 
 export default class Map {
   constructor() {
@@ -320,3 +322,15 @@ export default class Map {
     this.legend.remove();
   }
 }
+const openFullScreenList = (e) => {
+  const target = e.target;
+  if (target.classList.contains('content-center__share-icon')) {
+    if (document.fullscreenElement !== null) {
+      document.exitFullscreen()
+    } else {
+      contentCenter.requestFullscreen()
+    }
+    e.target.classList.toggle('content-leftSide-cases__share-icon--active');
+  }
+}
+contentCenter.addEventListener('click', openFullScreenList);

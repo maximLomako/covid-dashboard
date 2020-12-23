@@ -21,7 +21,7 @@ const config = {
     }]
   },
   options: {
-    responsive: false,
+    responsive: true,
     title: {
       display: true,
       text: `The total number of cases`
@@ -36,7 +36,7 @@ const config = {
         ticks: {
           autoSkip: true,
           maxTicksLimit: 12,
-          callback: function (value, index, values) {
+          callback: function (value, index) {
             return month[index % 27]
           }
         }
