@@ -1,0 +1,20 @@
+.content-rightSide__chart-select {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+.label-chart {
+    padding: 5px 0;
+}
+.content-rightSide__chart {
+    position: relative;
+    margin-top: 10px;
+    height: 508px;
+    width: 100%;
+}
+.content-rightSide__chart:fullscreen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

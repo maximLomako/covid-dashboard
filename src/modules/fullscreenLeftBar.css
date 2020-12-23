@@ -1,0 +1,6 @@
+.content-leftSide-cases:fullscreen .content-leftSide-cases__icon{
+    display: none;
+}
+.content-leftSide-cases:fullscreen .content-leftSide-cases__items{
+    height: 100%;
+}
