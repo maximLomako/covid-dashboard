@@ -50,7 +50,6 @@ let myChart = new Chart(ctx, config);
 
 const getData = () => {
   fetch('https://disease.sh/v3/covid-19/historical/all?lastdays=all') //общее количество случаев
-    // fetch('https://disease.sh/v3/covid-19/historical/USA?lastdays=all') //общее количество случаев по стране
     .then((response) => {
       return response.json();
     })
@@ -61,12 +60,28 @@ const getData = () => {
     })
 }
 const renderChart = (keys, values) => {
+  if (dashboard.getCurrentFilterIsAllPeriodValue()) {
+    const mutateArr = (arr) => {
+      let newArr = arr.map((el, i, arr) => arr[i+1]-el)
+      newArr.pop();
+      return newArr;
+    }
+    values = mutateArr(values);
+  } else {
+    values = values
+  }
+  if (dashboard.getCurrentFilterIsAbsoluteTermsValue()) {
+    config.data.datasets[0].data = values;
+  }
+  if (!dashboard.getCurrentFilterIsAbsoluteTermsValue()) {
+    config.data.datasets[0].data = values.map(el => Math.round(el * 100000 / 7827000000));
+  }
   config.data.labels = keys;
-  config.data.datasets[0].data = values;
-  config.data.datasets[0].label = `number of cases ${dashboard.getRateValue()}`;
+  config.data.datasets[0].label = `number of ${dashboard.getRateValue()}`;
   config.data.datasets[0].backgroundColor = keys.map(el => 'rgba(255, 99, 132, 0.2)');
   config.options.title.text = `The total number of ${dashboard.getRateValue()}`;
   myChart.update();
+
 }
 const openFullScreenList = (e) => {
   const target = e.target;
@@ -91,7 +106,6 @@ const changeSelectPeriodHandlerChart = (e) => {
   if (target === 'all') {
     dashboard.currentFilter.isAllPeriod = true
     e.target.value = 'all';
-    console.log(dashboard.currentFilter.isAllPeriod)
   }
   if (target === 'last') {
     dashboard.currentFilter.isAllPeriod = false
@@ -112,6 +126,17 @@ const changeSelectUnitsHandlerChart = (e) => {
   getData();
 }
 
+const getDataForCountry = () => {
+    fetch(`https://disease.sh/v3/covid-19/historical/USA?lastdays=all`) //общее количество случаев по стране
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data)
+        console.log(data.timeline.cases) //общее количество случаев
+      })
+}
+getDataForCountry();
 getData();
 
 switcherIndicatorsChart.addEventListener('change', changeSelectRateHandlerChart);
