@@ -1,0 +1,9 @@
+@media (max-width: 1024px) {
+  .content-wrapper {
+    flex-direction: column;
+  }
+  .content-center {
+    margin: 10px 0;
+    height: 500px;
+  }
+}

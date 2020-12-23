@@ -5,7 +5,7 @@
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="shortcut icon" href="./src/assets/img/favicon.png" type="image/png">
+  <link rel="shortcut icon" href="./img/favicon.png" type="image/png">
   <title>Covid-dashboard</title>
 </head>
 <body>
@@ -78,36 +78,41 @@
       <div class="content-center__map" id="map"></div>
     </div>
     <div class="content-rightSide">
-      <div class="wrapper content-rightSide-table">
-        <img src="./src/assets/img/share.svg" alt="share icon" class="content-leftSide-cases__share-icon content-rightSide-table__share-icon">
-        <div class="content-rightSide-table__title">Global</div>
-        <div class="content-rightSide-table__control">
-          <label>Select period <br> <select id="switcher-period">
-            <option value="all" checked>All period</option>
-            <option value="last">Last Day</option>
-          </select></label>
-          <label>Select units <br> <select id="switcher-units">
-            <option value="abs" checked>In absolute</option>
-            <option value="per-handr">Per 100.000</option>
-          </select></label>
+      
+        <div class="wrapper content-rightSide-table">
+          <div class="conteiner-table">
+            <img src="./src/assets/img/share.svg" alt="share icon" class="content-leftSide-cases__share-icon content-rightSide-table__share-icon">
+            <div class="content-rightSide-table__title">Global</div>
+            <div class="content-rightSide-table__control">
+              <label>Select period <br> <select id="switcher-period">
+                <option value="all" checked>All period</option>
+                <option value="last">Last Day</option>
+              </select></label>
+              <label>Select units <br> <select id="switcher-units">
+                <option value="abs" checked>In absolute</option>
+                <option value="per-handr">Per 100.000</option>
+              </select></label>
+            </div>
+            <table class="content-rightSide-table__content">
+              <thead>
+              <tr>
+                <th>Cases</th>
+                <th>Death</th>
+                <th>Recovered</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td id="cases-value">69,547,459</td>
+                <td id="death-value">1,581,734</td>
+                <td id="recovered-value">48,236,657</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-        <table class="content-rightSide-table__content">
-          <thead>
-          <tr>
-            <th>Cases</th>
-            <th>Death</th>
-            <th>Recovered</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <td id="cases-value">69,547,459</td>
-            <td id="death-value">1,581,734</td>
-            <td id="recovered-value">48,236,657</td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
+      
+      
       <div class="wrapper content-rightSide__chart">
         <img src="./src/assets/img/share.svg" alt="share icon"
              class="content-leftSide-cases__share-icon content-rightSide__chart-icon">

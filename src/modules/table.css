@@ -9,6 +9,19 @@ select:focus {
   outline: 0;
 }
 
+
+
+.content-rightSide-table:fullscreen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content-rightSide-table:fullscreen .conteiner-table {
+  width: 500px;
+}
+
+
 .content-rightSide-table {
   width: 100%;
   position: relative;
