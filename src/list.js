@@ -159,7 +159,7 @@ const updateTime = () => {
     .then((data) => {
       const dateObject = new Date(data.updated)
       const humanDateFormat = dateObject.toLocaleString()
-      lastUpdatedDate.innerHTML=humanDateFormat
+      lastUpdatedDate.innerHTML = humanDateFormat
     });
 
 }
@@ -188,3 +188,4 @@ switcherIndicatorsList.addEventListener('change', changeSelectRateHandler);
 switcherUnitsList.addEventListener("change", changeSelectUnitsHandler);
 switcherPeriodList.addEventListener('change', changeSelectPeriodHandler);
 contentLeftSideCases.addEventListener('click', openFullScreenList);
+
