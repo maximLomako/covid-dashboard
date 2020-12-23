@@ -78,10 +78,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 5px 0;
+    justify-content: center;
     border-bottom: 1px solid #363636;
     width: 100%;
-    padding: 5px;
+    padding: 10px;
+    text-align: center;
+}
+.content-leftSide-cases__item select {
+    display: block;
 }
 
 .content-leftSide-cases__item:hover {

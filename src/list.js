@@ -150,6 +150,21 @@ const openFullScreenList = (e) => {
     e.target.classList.toggle('content-leftSide-cases__share-icon--active');
   }
 }
+const updateTime = () => {
+  let dateInMMSec = 0;
+  fetch('https://disease.sh/v3/covid-19/all')
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      const dateObject = new Date(data.updated)
+      const humanDateFormat = dateObject.toLocaleString()
+      lastUpdatedDate.innerHTML=humanDateFormat
+    });
+
+}
+updateTime();
+
 
 fetch('https://disease.sh/v3/covid-19/countries')
   .then((response) => {
@@ -173,18 +188,3 @@ switcherIndicatorsList.addEventListener('change', changeSelectRateHandler);
 switcherUnitsList.addEventListener("change", changeSelectUnitsHandler);
 switcherPeriodList.addEventListener('change', changeSelectPeriodHandler);
 contentLeftSideCases.addEventListener('click', openFullScreenList);
-
-// document.addEventListener('filterPeriodChanged', (e) => {
-//   switcherPeriodList.value = e.detail;
-//   sortAscending();
-//   renderList(filterCountryByName());
-// });
-// document.addEventListener('filterUnitsChanged', (e) => {
-//   switcherUnitsList.value = e.detail;
-//   sortAscending();
-//   renderList(filterCountryByName());
-// });
-//
-// document.dispatchEvent(new CustomEvent('filterPeriodChanged', {
-//   detail: switcherPeriod.value,
-// }));

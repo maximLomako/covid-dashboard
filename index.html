@@ -54,12 +54,13 @@
         </div>
       </div>
       <div class="last-updated-panel wrapper">
-        <div class="last-updated__header">Last Updated at(M/D/YYYY)</div>
+        <div class="last-updated__header">Last Updated at(D/M/YYYY)</div>
         <div class="last-updated__date">12/13/2020, 4:26 pm</div>
       </div>
     </div>
     <div class="wrapper content-center">
       <div class="content-center__control">
+        <img src="./src/assets/img/share.svg" alt="share icon" class="content-leftSide-cases__share-icon content-center__share-icon">
         <label>Select rate <select id="map-switcher-rate">
           <option value="cases" checked>Cases</option>
           <option value="deaths">Death</option>
@@ -78,6 +79,7 @@
     </div>
     <div class="content-rightSide">
       <div class="wrapper content-rightSide-table">
+        <img src="./src/assets/img/share.svg" alt="share icon" class="content-leftSide-cases__share-icon content-rightSide-table__share-icon">
         <div class="content-rightSide-table__title">Global</div>
         <div class="content-rightSide-table__control">
           <label>Select period <br> <select id="switcher-period">
@@ -130,7 +132,7 @@
             </select>
           </label>
         </div>
-        <canvas class="myChart" id="myChart" width="350" height="350"></canvas>
+        <div class="chart"><canvas class="myChart" id="myChart" width="350" height="350"></canvas></div>
       </div>
     </div>
   </section>

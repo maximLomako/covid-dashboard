@@ -11,6 +11,7 @@ select:focus {
 
 .content-rightSide-table {
   width: 100%;
+  position: relative;
 }
 
 .content-rightSide-table__content {
