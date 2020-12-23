@@ -3,6 +3,7 @@
 /* eslint-disable new-cap */
 import L from 'leaflet';
 import dashboard from './dashboard';
+import geo from './geoData';
 
 const mapSwitcherRate = document.querySelector('#map-switcher-rate');
 const mapSwitcherPeriod = document.querySelector('#map-switcher-period');
@@ -21,6 +22,7 @@ export default class Map {
 
   init() {
     this.renderMap();
+    this.getData();
     this.subscribeEventListeners();
   }
 
@@ -52,9 +54,38 @@ export default class Map {
     });
   }
 
+  getData() {
+    const urlCountries = 'https://disease.sh/v3/covid-19/countries';
+    fetch(urlCountries)
+      .then((response) => response.json())
+      .then((json) => {
+        this.dataCountries = json;
+        this.renderGeojsonLayer();
+      });
+  }
+
   renderMap() {
     this.map = new L.map('map', this.mapOptions);
     const layer = new L.TileLayer('https://api.mapbox.com/styles/v1/v1nt/ckirm90bo042p1at48sivwglg/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoidjFudCIsImEiOiJja2lybTh2bnowaW96MnVvYjJmbW85cjV4In0.Xn57VkKhUswIOzAM4RtQZQ');
     this.map.addLayer(layer);
+  }
+
+  renderGeojsonLayer() {
+    let geojson;
+    function style(feature) {
+      return {
+        fillColor: '#fff',
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.7,
+      };
+    }
+
+    geojson = L.geoJson(geo, {
+      style,
+    }).addTo(this.map);
+    this.geojsonLayer = geojson;
   }
 }
