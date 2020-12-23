@@ -48,21 +48,22 @@ const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "O
 
 let myChart = new Chart(ctx, config);
 
-const getData = () => {
-  fetch('https://disease.sh/v3/covid-19/historical/all?lastdays=all') //общее количество случаев
+export const getData = () => {
+  const URL = dashboard.getCurrentCountryValue() ? `https://disease.sh/v3/covid-19/historical/${dashboard.getCurrentCountryValue()}?lastdays=all` : 'https://disease.sh/v3/covid-19/historical/all?lastdays=all';
+  fetch(URL)
     .then((response) => {
       return response.json();
     })
     .then((data) => {
-      let keys = Object.keys(data[dashboard.getRateValue()])
-      let values = Object.values(data[dashboard.getRateValue()])
+      let keys = dashboard.getCurrentCountryValue() ? Object.keys(data.timeline[dashboard.getRateValue()]) : Object.keys(data[dashboard.getRateValue()])
+      let values = dashboard.getCurrentCountryValue() ? Object.values(data.timeline[dashboard.getRateValue()]) : Object.values(data[dashboard.getRateValue()])
       renderChart(keys, values);
     })
 }
 const renderChart = (keys, values) => {
   if (dashboard.getCurrentFilterIsAllPeriodValue()) {
     const mutateArr = (arr) => {
-      let newArr = arr.map((el, i, arr) => arr[i+1]-el)
+      let newArr = arr.map((el, i, arr) => arr[i + 1] - el)
       newArr.pop();
       return newArr;
     }
@@ -77,9 +78,9 @@ const renderChart = (keys, values) => {
     config.data.datasets[0].data = values.map(el => Math.round(el * 100000 / 7827000000));
   }
   config.data.labels = keys;
-  config.data.datasets[0].label = `number of ${dashboard.getRateValue()}`;
+  config.data.datasets[0].label = dashboard.getCurrentCountryValue() ? `number of ${dashboard.getRateValue()} in ${dashboard.getCurrentCountryValue()}` : `number of ${dashboard.getRateValue()}`;
   config.data.datasets[0].backgroundColor = keys.map(el => 'rgba(255, 99, 132, 0.2)');
-  config.options.title.text = `The total number of ${dashboard.getRateValue()}`;
+  config.options.title.text = dashboard.getCurrentCountryValue() ? `The total number of ${dashboard.getRateValue()} in ${dashboard.getCurrentCountryValue()}` : `The total number of ${dashboard.getRateValue()}`;
   myChart.update();
 
 }
@@ -126,17 +127,6 @@ const changeSelectUnitsHandlerChart = (e) => {
   getData();
 }
 
-const getDataForCountry = () => {
-    fetch(`https://disease.sh/v3/covid-19/historical/USA?lastdays=all`) //общее количество случаев по стране
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data)
-        console.log(data.timeline.cases) //общее количество случаев
-      })
-}
-getDataForCountry();
 getData();
 
 switcherIndicatorsChart.addEventListener('change', changeSelectRateHandlerChart);

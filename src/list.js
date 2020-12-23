@@ -1,4 +1,5 @@
 import dashboard from "./dashboard";
+import {getData} from "./chart";
 
 const contentLeftSideGlobalCasesCounter = document.querySelector(".content-leftSide-globalCases__counter");
 const contentLeftSideCases = document.querySelector(".content-leftSide-cases");
@@ -135,6 +136,7 @@ const chooseCountry = (e) => {
   const target = e.target;
   if (target.closest('.content-leftSide-cases__item')) {
     dashboard.currentCountry = (target.closest('.content-leftSide-cases__item').children[1].children[0].textContent)
+    getData();
   }
 }
 const openFullScreenList = (e) => {
