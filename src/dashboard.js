@@ -5,6 +5,8 @@ class Dashboard {
       isAbsoluteTerms: true,
     };
     this.currentCountry = '';
+    this.data = null;
+    this.rate = 'cases';
   }
 }
 
