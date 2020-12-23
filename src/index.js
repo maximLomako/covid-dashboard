@@ -1,6 +1,6 @@
-import './list'
-import './keyboard'
-import './chart'
+import './list';
+import './keyboard';
+import './chart';
 import Table from './Table';
 import Map from './Map';
 

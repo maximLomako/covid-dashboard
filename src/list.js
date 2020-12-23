@@ -1,51 +1,52 @@
-import dashboard from "./dashboard";
-import {getData} from "./chart";
+import dashboard from './dashboard';
+import { getData } from './chart';
 
-const contentLeftSideGlobalCasesCounter = document.querySelector(".content-leftSide-globalCases__counter");
-const contentLeftSideCases = document.querySelector(".content-leftSide-cases");
-const contentLeftSideCasesItems = document.querySelector(".content-leftSide-cases__items");
-const contentLeftSideCasesInput = document.querySelector(".use-keyboard-input");
-export const contentLeftSideCasesIcon = document.querySelector(".content-leftSide-cases__icon");
-const switcherIndicatorsList = document.querySelector("#switcher-indicators-list");
-const switcherPeriodList = document.querySelector("#switcher-period-list");
-const switcherUnitsList = document.querySelector("#switcher-units-list");
-const lastUpdatedDate = document.querySelector(".last-updated__date");
-let newDataCountries = []
+const contentLeftSideGlobalCasesCounter = document.querySelector('.content-leftSide-globalCases__counter');
+const contentLeftSideCases = document.querySelector('.content-leftSide-cases');
+const contentLeftSideCasesItems = document.querySelector('.content-leftSide-cases__items');
+const contentLeftSideCasesInput = document.querySelector('.use-keyboard-input');
+export const contentLeftSideCasesIcon = document.querySelector('.content-leftSide-cases__icon');
+const switcherIndicatorsList = document.querySelector('#switcher-indicators-list');
+const switcherPeriodList = document.querySelector('#switcher-period-list');
+const switcherUnitsList = document.querySelector('#switcher-units-list');
+const lastUpdatedDate = document.querySelector('.last-updated__date');
+let newDataCountries = [];
 
 const renderGlobalCases = (data) => {
-  contentLeftSideGlobalCasesCounter.textContent = data.reduce((acc, el) => acc + el.cases, 0)
+  contentLeftSideGlobalCasesCounter.textContent = data.reduce((acc, el) => acc + el.cases, 0);
   contentLeftSideGlobalCasesCounter.textContent = contentLeftSideGlobalCasesCounter.textContent
-    .toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-}
+    .toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};
 const renderList = (data) => {
-  contentLeftSideCasesItems.innerHTML = "";
+  contentLeftSideCasesItems.innerHTML = '';
   data.map((el) => {
+    let counterDigit = null;
 
-      let counterDigit = null;
-
-      if (dashboard.getCurrentFilterIsAbsoluteTermsValue()) {
-        if (!dashboard.getCurrentFilterIsAllPeriodValue()) {
-          let str = dashboard.getRateValue().charAt(0).toUpperCase() + dashboard.getRateValue().slice(1);
-          counterDigit = el[`today${str}`]
-        } else {
-          counterDigit = el[dashboard.getRateValue()]
-        }
-        if (counterDigit === NaN || counterDigit === Infinity) {
-          counterDigit = 0
-        }
-      } else if (!dashboard.getCurrentFilterIsAbsoluteTermsValue()) {
-        if (!dashboard.getCurrentFilterIsAllPeriodValue()) {
-          let str = dashboard.getRateValue().charAt(0).toUpperCase() + dashboard.getRateValue().slice(1);
-          counterDigit = Math.round(el[`today${str}`] * 100000 / el.population)
-        } else {
-          counterDigit = Math.round(el[dashboard.getRateValue()] * 100000 / el.population)
-        }
-        if (counterDigit === NaN || counterDigit === Infinity) {
-          counterDigit = 0
-        }
+    if (dashboard.getCurrentFilterIsAbsoluteTermsValue()) {
+      if (!dashboard.getCurrentFilterIsAllPeriodValue()) {
+        const str = dashboard.getRateValue()
+          .charAt(0).toUpperCase() + dashboard.getRateValue().slice(1);
+        counterDigit = el[`today${str}`];
+      } else {
+        counterDigit = el[dashboard.getRateValue()];
       }
+      if (counterDigit === NaN || counterDigit === Infinity) {
+        counterDigit = 0;
+      }
+    } else if (!dashboard.getCurrentFilterIsAbsoluteTermsValue()) {
+      if (!dashboard.getCurrentFilterIsAllPeriodValue()) {
+        const str = dashboard.getRateValue().charAt(0)
+          .toUpperCase() + dashboard.getRateValue().slice(1);
+        counterDigit = Math.round(el[`today${str}`] * 100000 / el.population);
+      } else {
+        counterDigit = Math.round((el[dashboard.getRateValue()] * 100000) / el.population);
+      }
+      if (counterDigit === NaN || counterDigit === Infinity) {
+        counterDigit = 0;
+      }
+    }
 
-      return contentLeftSideCasesItems.insertAdjacentHTML('beforeend', `
+    return contentLeftSideCasesItems.insertAdjacentHTML('beforeend', `
           <div class="content-leftSide-cases__item">
             <div class="content-leftSide-cases__counter">
               <div class="content-leftSide-cases__counter-digit">
@@ -60,120 +61,115 @@ const renderList = (data) => {
               </div>
             </div>
           </div>`);
-    }
-  )
-}
+  });
+};
 const changeSelectRateHandler = (e) => {
   const target = e.target.value;
-  dashboard.rate = target
+  dashboard.rate = target;
   e.target.value = dashboard.getRateValue();
   sortAscending();
   renderList(filterCountryByName());
-}
+};
 const changeSelectPeriodHandler = (e) => {
   const target = e.target.value;
   if (target === 'all') {
-    dashboard.currentFilter.isAllPeriod = true
+    dashboard.currentFilter.isAllPeriod = true;
     e.target.value = 'all';
   }
   if (target === 'last') {
-    dashboard.currentFilter.isAllPeriod = false
+    dashboard.currentFilter.isAllPeriod = false;
     e.target.value = 'last';
   }
   sortAscending();
   renderList(filterCountryByName());
-}
+};
 const changeSelectUnitsHandler = (e) => {
   const target = e.target.value;
   if (target === 'abs') {
-    dashboard.currentFilter.isAbsoluteTerms = true
+    dashboard.currentFilter.isAbsoluteTerms = true;
     e.target.value = 'abs';
   }
   if (target === 'per-handr') {
-    dashboard.currentFilter.isAbsoluteTerms = false
+    dashboard.currentFilter.isAbsoluteTerms = false;
     e.target.value = 'per-handr';
   }
   sortAscending();
   renderList(filterCountryByName());
-}
+};
 const sortAscending = () => {
   if (dashboard.getCurrentFilterIsAbsoluteTermsValue()) {
     if (!dashboard.getCurrentFilterIsAllPeriodValue()) {
-      let str = dashboard.getRateValue().charAt(0).toUpperCase() + dashboard.getRateValue().slice(1);
-      newDataCountries.sort((a, b) => b[`today${str}`] - a[`today${str}`])
+      const str = dashboard.getRateValue().charAt(0)
+        .toUpperCase() + dashboard.getRateValue().slice(1);
+      newDataCountries.sort((a, b) => b[`today${str}`] - a[`today${str}`]);
     } else {
-      newDataCountries.sort((a, b) => b[dashboard.getRateValue()] - a[dashboard.getRateValue()])
+      newDataCountries.sort((a, b) => b[dashboard.getRateValue()] - a[dashboard.getRateValue()]);
     }
   } else if (!dashboard.getCurrentFilterIsAbsoluteTermsValue()) {
     if (!dashboard.getCurrentFilterIsAllPeriodValue()) {
-      let str = dashboard.getRateValue().charAt(0).toUpperCase() + dashboard.getRateValue().slice(1);
-      newDataCountries.sort((a, b) =>
-        b[`today${str}`] * 100000 / b.population - a[`today${str}`] * 100000 / a.population)
+      const str = dashboard.getRateValue().charAt(0)
+        .toUpperCase() + dashboard.getRateValue().slice(1);
+      newDataCountries.sort((a, b) => b[`today${str}`] * 100000 / b.population - a[`today${str}`] * 100000 / a.population);
     } else {
-      newDataCountries.sort((a, b) => b[dashboard.getRateValue()] * 100000 / b.population - a[dashboard.getRateValue()] * 100000 / a.population)
+      newDataCountries.sort((a, b) => (b[dashboard.getRateValue()] * 100000) / b.population
+      - (a[dashboard.getRateValue()] * 100000) / a.population);
     }
   }
-}
+};
 export const filterCountryByName = () => {
-  let filteredCountries = newDataCountries
+  const filteredCountries = newDataCountries
     .filter((c) => {
       if (c.country !== 'MS Zaandam' && c.country !== 'Diamond Princess') {
-        return c.country.toLowerCase().includes(dashboard.getDataInputValue().toLowerCase())
+        return c.country.toLowerCase().includes(dashboard.getDataInputValue().toLowerCase());
       }
-    })
+    });
   sortAscending();
   renderList(filteredCountries);
   return filteredCountries;
-}
+};
 const changeDashboardValueByKeyboard = (e) => {
   dashboard.dataInput = e.target.value;
   filterCountryByName();
-}
+};
 const addAnimationToKeyboardIcon = () => {
-  contentLeftSideCasesIcon.classList.toggle("bounce-top");
-}
+  contentLeftSideCasesIcon.classList.toggle('bounce-top');
+};
 const chooseCountry = (e) => {
-  const target = e.target;
+  const { target } = e;
   if (target.closest('.content-leftSide-cases__item')) {
-    dashboard.currentCountry = (target.closest('.content-leftSide-cases__item').children[1].children[0].textContent)
+    dashboard.currentCountry = (target.closest('.content-leftSide-cases__item').children[1].children[0].textContent);
     getData();
   }
-}
+};
 const openFullScreenList = (e) => {
-  const target = e.target;
+  const { target } = e;
   if (target.classList.contains('content-leftSide-cases__share-icon')) {
     if (document.fullscreenElement !== null) {
-      document.exitFullscreen()
+      document.exitFullscreen();
     } else {
-      contentLeftSideCases.requestFullscreen()
+      contentLeftSideCases.requestFullscreen();
     }
     e.target.classList.toggle('content-leftSide-cases__share-icon--active');
   }
-}
+};
 const updateTime = () => {
-  let dateInMMSec = 0;
+  const dateInMMSec = 0;
   fetch('https://disease.sh/v3/covid-19/all')
-    .then((response) => {
-      return response.json();
-    })
+    .then((response) => response.json())
     .then((data) => {
-      const dateObject = new Date(data.updated)
-      const humanDateFormat = dateObject.toLocaleString()
-      lastUpdatedDate.innerHTML = humanDateFormat
+      const dateObject = new Date(data.updated);
+      const humanDateFormat = dateObject.toLocaleString();
+      lastUpdatedDate.innerHTML = humanDateFormat;
     });
-
-}
+};
 updateTime();
 
-
 fetch('https://disease.sh/v3/covid-19/countries')
-  .then((response) => {
-    return response.json();
-  })
+  .then((response) => response.json())
   .then((data) => {
     newDataCountries = data.filter((c) => {
       if (c.country !== 'MS Zaandam' && c.country !== 'Diamond Princess') {
-        return c.country.toLowerCase().includes(dashboard.getDataInputValue().toLowerCase())
+        return c.country.toLowerCase().includes(dashboard.getDataInputValue().toLowerCase());
       }
     });
     sortAscending();

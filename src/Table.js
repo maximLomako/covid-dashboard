@@ -7,7 +7,6 @@ const deathValue = document.querySelector('#death-value');
 const recoveredValue = document.querySelector('#recovered-value');
 const tableTitle = document.querySelector('.content-rightSide-table__title');
 const contentRightSideTable = document.querySelector('.content-rightSide-table');
-const contentRightSideTableShareIcon = document.querySelector('.content-rightSide-table__share-icon');
 
 export default class Table {
   constructor() {
@@ -112,14 +111,14 @@ export default class Table {
   }
 }
 const openFullScreenList = (e) => {
-  const target = e.target;
+  const { target } = e;
   if (target.classList.contains('content-rightSide-table__share-icon')) {
     if (document.fullscreenElement !== null) {
-      document.exitFullscreen()
+      document.exitFullscreen();
     } else {
-      contentRightSideTable.requestFullscreen()
+      contentRightSideTable.requestFullscreen();
     }
     e.target.classList.toggle('content-leftSide-cases__share-icon--active');
   }
-}
+};
 contentRightSideTable.addEventListener('click', openFullScreenList);

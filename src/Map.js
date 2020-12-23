@@ -323,14 +323,14 @@ export default class Map {
   }
 }
 const openFullScreenList = (e) => {
-  const target = e.target;
+  const { target } = e;
   if (target.classList.contains('content-center__share-icon')) {
     if (document.fullscreenElement !== null) {
-      document.exitFullscreen()
+      document.exitFullscreen();
     } else {
-      contentCenter.requestFullscreen()
+      contentCenter.requestFullscreen();
     }
     e.target.classList.toggle('content-leftSide-cases__share-icon--active');
   }
-}
+};
 contentCenter.addEventListener('click', openFullScreenList);

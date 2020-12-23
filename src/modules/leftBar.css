@@ -29,8 +29,8 @@
     position: absolute;
     height: 15px;
     width: 15px;
-    top: 0%;
-    right: 0%;
+    top: 3px;
+    right: 3px;
     filter: contrast(.5);
     cursor: pointer;
     z-index: 999;
