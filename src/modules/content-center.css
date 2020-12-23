@@ -1,0 +1,27 @@
+.map-wrapper {
+    height: 560px;
+}
+.content-center__control-panel {
+    display: flex;
+    margin-right: 5px;
+}
+.content-center__control-panel__btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.9rem;
+    padding: 5px;
+    background: #000000;
+    margin-right: 5px;
+}
+.countries-cases-counter {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.countries-cases-counter-digit {
+    font-weight: bold;
+    font-size: 2rem;
+}

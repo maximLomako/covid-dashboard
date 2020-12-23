@@ -1,0 +1,18 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@import 'modules/mainPage.css';
+@import 'modules/leftBar.css';
+@import 'modules/fullscreenLeftBar.css';
+@import 'modules/keyBoard.css';
+@import 'modules/change-panel.css';
+@import 'modules/content-center.css';
+@import 'modules/footer.css';
+@import 'modules/media.css';
+@import 'modules/table.css';
+@import 'modules/map.css';
+@import "modules/chart.css";
+@import 'leaflet/dist/leaflet.css';

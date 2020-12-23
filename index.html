@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="shortcut icon" href="./img/favicon.png" type="image/png">
+  <title>Covid-dashboard</title>
+</head>
+<body>
+<h1 class="visuallyhidden">Covid-dashboard</h1>
+<div class="container">
+  <header class="wrapper header">
+    <img src="src/assets/img/coronavirus.svg" alt="header-logo" class="header__logo">
+    <h2 class="header__title">COVID- 19 Dashboard by the RS School</h2>
+  </header>
+  <section class="content-wrapper">
+    <div class="content-leftSide">
+      <div class="wrapper content-leftSide-globalCases">
+        <h3 class="content-leftSide-globalCases__header">Global Cases</h3>
+        <h4 class="content-leftSide-globalCases__counter"></h4>
+      </div>
+      <div class="wrapper content-leftSide-cases">
+        <img src="./src/assets/img/share.svg" alt="share icon" class="content-leftSide-cases__share-icon">
+        <div class="content-leftSide-cases__item">
+          <input type="text" placeholder="Enter country name ..."
+                 class="content-leftSide-cases__input use-keyboard-input" onblur="this.focus()" autofocus>
+          <img src="./src/assets/img/keyboard.svg" class="content-leftSide-cases__icon" alt="keyboard-icon">
+        </div>
+        <div class="content-leftSide-cases__item">
+          <label>Select rate
+            <select id="switcher-indicators-list">
+              <option value="cases" checked>Number of cases</option>
+              <option value="deaths">Number of deaths</option>
+              <option value="recovered">Number of recovered</option>
+            </select>
+          </label>
+          <label>Select period
+            <select id="switcher-period-list">
+              <option value="all" checked>All period</option>
+              <option value="last">Last Day</option>
+            </select>
+          </label>
+          <label>Select units
+            <select id="switcher-units-list">
+              <option value="abs" checked>In absolute</option>
+              <option value="per-handr">Per 100.000</option>
+            </select>
+          </label>
+        </div>
+        <div class="content-leftSide-cases__items">
+
+        </div>
+      </div>
+      <div class="last-updated-panel wrapper">
+        <div class="last-updated__header">Last Updated at(D/M/YYYY)</div>
+        <div class="last-updated__date">12/13/2020, 4:26 pm</div>
+      </div>
+    </div>
+    <div class="wrapper content-center">
+      <div class="content-center__control">
+        <img src="./src/assets/img/share.svg" alt="share icon" class="content-leftSide-cases__share-icon content-center__share-icon">
+        <label>Select rate <select id="map-switcher-rate">
+          <option value="cases" checked>Number of cases</option>
+          <option value="deaths">Number of death</option>
+          <option value="recovered">Number of recovered</option>
+        </select></label>
+        <label>Select period <select id="map-switcher-period">
+          <option value="all" checked>All period</option>
+          <option value="last">Last Day</option>
+        </select></label>
+        <label>Select units <select id="map-switcher-units">
+          <option value="abs" checked>In absolute</option>
+          <option value="per-handr">Per 100.000</option>
+        </select></label>
+      </div>
+      <div class="content-center__map" id="map"></div>
+    </div>
+    <div class="content-rightSide">
+      
+        <div class="wrapper content-rightSide-table">
+          <div class="conteiner-table">
+            <img src="./src/assets/img/share.svg" alt="share icon" class="content-leftSide-cases__share-icon content-rightSide-table__share-icon">
+            <div class="content-rightSide-table__title">Global</div>
+            <div class="content-rightSide-table__control">
+              <label>Select period <br> <select id="switcher-period">
+                <option value="all" checked>All period</option>
+                <option value="last">Last Day</option>
+              </select></label>
+              <label>Select units <br> <select id="switcher-units">
+                <option value="abs" checked>In absolute</option>
+                <option value="per-handr">Per 100.000</option>
+              </select></label>
+            </div>
+            <table class="content-rightSide-table__content">
+              <thead>
+              <tr>
+                <th>Cases</th>
+                <th>Death</th>
+                <th>Recovered</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td id="cases-value">69,547,459</td>
+                <td id="death-value">1,581,734</td>
+                <td id="recovered-value">48,236,657</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      
+      
+      <div class="wrapper content-rightSide__chart">
+        <img src="./src/assets/img/share.svg" alt="share icon"
+             class="content-leftSide-cases__share-icon content-rightSide__chart-icon">
+        <div class="content-rightSide__chart-select">
+          <label class="label-chart">Select rate
+            <select id="switcher-indicators-chart">
+              <option value="cases" checked>Number of cases</option>
+              <option value="deaths">Number of deaths</option>
+              <option value="recovered">Number of recovered</option>
+            </select>
+          </label>
+          <label class="label-chart">Select period
+            <select id="switcher-period-chart">
+              <option value="all" checked>All period</option>
+              <option value="last">Last Day</option>
+            </select>
+          </label>
+          <label class="label-chart">Select units
+            <select id="switcher-units-chart">
+              <option value="abs" checked>In absolute</option>
+              <option value="per-handr">Per 100.000</option>
+            </select>
+          </label>
+        </div>
+        <div class="chart"><canvas class="myChart" id="myChart" width="350" height="350"></canvas></div>
+      </div>
+    </div>
+  </section>
+  <footer class="wrapper footer">
+    <div class="footer-developers">
+      <a href="https://github.com/maximLomako">Maxim Lomako</a>
+      <a href="https://github.com/Vital-Nahorny">Vitaliy Nahorny</a>
+    </div>
+    <div class="footer-block__item">2020</div>
+    <div class="footer-block__item">
+      <a href="https://rs.school/js/">
+        <img src="./src/assets/img/rs_school_js.svg" alt="rsSchool"
+             class="footer-block__item-img"></a>
+    </div>
+  </footer>
+</div>
+</body>
+</html>
