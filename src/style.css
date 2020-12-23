@@ -15,3 +15,4 @@
 @import 'modules/table.css';
 @import 'modules/map.css';
 @import "modules/chart.css";
+@import 'leaflet/dist/leaflet.css';

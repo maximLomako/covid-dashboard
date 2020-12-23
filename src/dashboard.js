@@ -7,6 +7,7 @@ class Dashboard {
     this.currentCountry = '';
     this.rate = 'cases'
     this.dataInput = '';
+    this.data = null;
   }
   getCurrentFilterIsAbsoluteTermsValue() {
     return this.currentFilter.isAbsoluteTerms;
