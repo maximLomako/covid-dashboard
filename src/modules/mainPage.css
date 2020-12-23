@@ -55,6 +55,7 @@ body {
 .content-center {
     flex-basis: 58%;
     margin: 0 10px;
+
 }
 .content-rightSide {
     flex-basis: 27%;

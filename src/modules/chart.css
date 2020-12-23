@@ -12,3 +12,9 @@
     height: 508px;
     width: 100%;
 }
+.content-rightSide__chart:fullscreen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

@@ -172,3 +172,17 @@ switcherUnitsList.addEventListener("change", changeSelectUnitsHandler);
 switcherPeriodList.addEventListener('change', changeSelectPeriodHandler);
 contentLeftSideCases.addEventListener('click', openFullScreenList);
 
+// document.addEventListener('filterPeriodChanged', (e) => {
+//   switcherPeriodList.value = e.detail;
+//   sortAscending();
+//   renderList(filterCountryByName());
+// });
+// document.addEventListener('filterUnitsChanged', (e) => {
+//   switcherUnitsList.value = e.detail;
+//   sortAscending();
+//   renderList(filterCountryByName());
+// });
+//
+// document.dispatchEvent(new CustomEvent('filterPeriodChanged', {
+//   detail: switcherPeriod.value,
+// }));

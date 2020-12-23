@@ -6,6 +6,47 @@ const contentRightSideChart = document.querySelector('.content-rightSide__chart'
 const switcherIndicatorsChart = document.querySelector("#switcher-indicators-chart");
 const switcherPeriodChart = document.querySelector("#switcher-period-chart");
 const switcherUnitsChart = document.querySelector("#switcher-units-chart");
+const config = {
+  type: 'line',
+  data: {
+    labels: [],
+    datasets: [{
+      label: `number of cases`,
+      data: [],
+      backgroundColor: ['rgba(255, 99, 132, 0.2)'],
+      borderColor: [
+        'rgba(255, 99, 132, 1)'
+      ],
+      borderWidth: 1
+    }]
+  },
+  options: {
+    responsive: false,
+    title: {
+      display: true,
+      text: `The total number of cases`
+    },
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }],
+      xAxes: [{
+        ticks: {
+          autoSkip: true,
+          maxTicksLimit: 12,
+          callback: function (value, index, values) {
+            return month[index % 27]
+          }
+        }
+      }]
+    }
+  }
+}
+const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+let myChart = new Chart(ctx, config);
 
 const getData = () => {
   fetch('https://disease.sh/v3/covid-19/historical/all?lastdays=all') //общее количество случаев
@@ -16,49 +57,16 @@ const getData = () => {
     .then((data) => {
       let keys = Object.keys(data[dashboard.getRateValue()])
       let values = Object.values(data[dashboard.getRateValue()])
-      console.log(data)
       renderChart(keys, values);
     })
 }
 const renderChart = (keys, values) => {
-  const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  const myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: keys,
-      datasets: [{
-        label: `number of ${dashboard.getRateValue()}`,
-        data: values,
-        backgroundColor: keys.map(el => 'rgba(255, 99, 132, 0.2)'),
-        borderColor: [
-          'rgba(255, 99, 132, 1)'
-        ],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      title: {
-        display: true,
-        text: `The total number of ${dashboard.getRateValue()}`
-      },
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true
-          }
-        }],
-        xAxes: [{
-          ticks: {
-            autoSkip: true,
-            maxTicksLimit: 12,
-            callback: function (value, index, values) {
-              return month[index % 27]
-            }
-          }
-        }]
-      }
-    }
-  });
+  config.data.labels = keys;
+  config.data.datasets[0].data = values;
+  config.data.datasets[0].label = `number of cases ${dashboard.getRateValue()}`;
+  config.data.datasets[0].backgroundColor = keys.map(el => 'rgba(255, 99, 132, 0.2)');
+  config.options.title.text = `The total number of ${dashboard.getRateValue()}`;
+  myChart.update();
 }
 const openFullScreenList = (e) => {
   const target = e.target;
@@ -72,7 +80,6 @@ const openFullScreenList = (e) => {
     e.target.classList.toggle('content-leftSide-cases__share-icon--active');
   }
 }
-
 const changeSelectRateHandlerChart = (e) => {
   const target = e.target.value;
   dashboard.rate = target
@@ -90,6 +97,7 @@ const changeSelectPeriodHandlerChart = (e) => {
     dashboard.currentFilter.isAllPeriod = false
     e.target.value = 'last';
   }
+  getData();
 }
 const changeSelectUnitsHandlerChart = (e) => {
   const target = e.target.value;
@@ -101,6 +109,7 @@ const changeSelectUnitsHandlerChart = (e) => {
     dashboard.currentFilter.isAbsoluteTerms = false
     e.target.value = 'per-handr';
   }
+  getData();
 }
 
 getData();
