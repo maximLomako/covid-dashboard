@@ -37,7 +37,7 @@ module.exports = (env, options) => {
               plugins: ["@babel/plugin-proposal-class-properties"]
             }
           }
-        },
+        }, 
         {
           test: /\.css$/,
         use: [
@@ -61,6 +61,12 @@ module.exports = (env, options) => {
             minimize: false
           }
         },
+        // {
+        //   test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        //   use: [
+        //     'file-loader'
+        //   ]
+        // },
       ]
     },
     plugins: [

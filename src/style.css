@@ -12,3 +12,4 @@
 @import 'modules/media.css';
 @import 'modules/table.css';
 @import 'modules/map.css';
+@import 'leaflet/dist/leaflet.css';
