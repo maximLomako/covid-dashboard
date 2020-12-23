@@ -27,7 +27,7 @@ select:focus {
 }
 
 .content-rightSide-table__title {
-  font-size: 30px;
+  font-size: 36px;
   width: 100%;
   padding: 15px 0;
   text-align: center;
@@ -36,13 +36,26 @@ select:focus {
 }
 
 td, th {
+  font-size: 24px;
   text-align: center;
 }
+th:nth-child(1), td:nth-child(1) {
+  color: #db6505;
+}
+
+th:nth-child(2), td:nth-child(2) {
+  color: #901403;
+}
+
+th:nth-child(3), td:nth-child(3) {
+  color: #25db05;
+}
+
 td {
-  font-size: 14px;
   color: #fff;
   font-weight: bold;
 }
+
 th {
   height: 40px;
 }

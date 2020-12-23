@@ -5,6 +5,7 @@ const switcherUnits = document.querySelector('#switcher-units');
 const casesValue = document.querySelector('#cases-value');
 const deathValue = document.querySelector('#death-value');
 const recoveredValue = document.querySelector('#recovered-value');
+const tableTitle = document.querySelector('.content-rightSide-table__title');
 
 export default class Table {
   constructor() {
@@ -14,12 +15,33 @@ export default class Table {
 
   init() {
     this.getData();
+    this.subscribeEventListeners();
+  }
+
+  subscribeEventListeners() {
     switcherPeriod.addEventListener('change', () => {
       dashboard.currentFilter.isAllPeriod = !dashboard.currentFilter.isAllPeriod;
+      document.dispatchEvent(new CustomEvent('filterPeriodChanged', {
+        detail: switcherPeriod.value,
+      }));
       this.renderValue();
     });
     switcherUnits.addEventListener('change', () => {
       dashboard.currentFilter.isAbsoluteTerms = !dashboard.currentFilter.isAbsoluteTerms;
+      document.dispatchEvent(new CustomEvent('filterUnitsChanged', {
+        detail: switcherUnits.value,
+      }));
+      this.renderValue();
+    });
+    document.addEventListener('filterPeriodChanged', (e) => {
+      switcherPeriod.value = e.detail;
+      this.renderValue();
+    });
+    document.addEventListener('filterUnitsChanged', (e) => {
+      switcherUnits.value = e.detail;
+      this.renderValue();
+    });
+    document.addEventListener('countryChanged', () => {
       this.renderValue();
     });
   }
@@ -58,7 +80,7 @@ export default class Table {
 
     const renderValueTodayPer = () => {
       casesValue.textContent = Math.floor(data.todayCases / per).toLocaleString('en-EN');
-      deathValue.textContent = Math.floor(data.todayDeaths / per).toLocaleString('en-EN');
+      deathValue.textContent = (data.todayDeaths / per).toFixed(2).toLocaleString('en-EN');
       recoveredValue.textContent = Math.floor(data.todayRecovered / per).toLocaleString('en-EN');
     };
 
@@ -73,6 +95,8 @@ export default class Table {
       deathValue.textContent = Math.floor(data.deaths / per).toLocaleString('en-EN');
       recoveredValue.textContent = Math.floor(data.recovered / per).toLocaleString('en-EN');
     };
+
+    tableTitle.textContent = dashboard.currentCountry ? data.country : 'Global';
 
     if (dashboard.currentFilter.isAllPeriod && dashboard.currentFilter.isAbsoluteTerms) {
       renderValueAllPeriod();

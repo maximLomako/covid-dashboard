@@ -157,11 +157,16 @@
     </div>
     <div class="wrapper content-center">
       <div class="content-center__control">
-        <label>Select period <select>
+        <label>Select rate <select id="map-switcher-rate">
+          <option value="cases" checked>Cases</option>
+          <option value="deaths">Death</option>
+          <option value="recovered">Recovered</option>
+        </select></label>
+        <label>Select period <select id="map-switcher-period">
           <option value="all" checked>All period</option>
           <option value="last">Last Day</option>
         </select></label>
-        <label>Select units <select>
+        <label>Select units <select id="map-switcher-units">
           <option value="abs" checked>In absolute</option>
           <option value="per-handr">Per 100.000</option>
         </select></label>
@@ -191,9 +196,9 @@
           </thead>
           <tbody>
             <tr>
-              <td id="cases-value">69,547,459</td>
-              <td id="death-value">1,581,734</td>
-              <td id="recovered-value">48,236,657</td>
+              <td id="cases-value"></td>
+              <td id="death-value"></td>
+              <td id="recovered-value"></td>
             </tr>
           </tbody>
         </table>
