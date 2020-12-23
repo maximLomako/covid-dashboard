@@ -166,25 +166,44 @@ fetch('https://disease.sh/v3/covid-19/countries')
     renderGlobalCases(newDataCountries);
   });
 
-contentLeftSideCasesItems.addEventListener('click', chooseCountry);
+contentLeftSideCasesItems.addEventListener('click', (e) => {
+  chooseCountry(e);
+  document.dispatchEvent(new CustomEvent('countryChanged'));
+});
 contentLeftSideCasesInput.addEventListener('input', changeDashboardValueByKeyboard);
 contentLeftSideCasesIcon.addEventListener('mouseover', addAnimationToKeyboardIcon);
-switcherIndicatorsList.addEventListener('change', changeSelectRateHandler);
-switcherUnitsList.addEventListener("change", changeSelectUnitsHandler);
-switcherPeriodList.addEventListener('change', changeSelectPeriodHandler);
+switcherIndicatorsList.addEventListener('change', (e) => {
+  changeSelectRateHandler(e);
+  document.dispatchEvent(new CustomEvent('filterRateChanged', {
+    detail: switcherIndicatorsList.value,
+  }));
+});
+switcherUnitsList.addEventListener('change', (e) => {
+  changeSelectUnitsHandler(e);
+  document.dispatchEvent(new CustomEvent('filterUnitsChanged', {
+    detail: switcherUnitsList.value,
+  }));
+});
+switcherPeriodList.addEventListener('change', (e) => {
+  changeSelectPeriodHandler(e);
+  document.dispatchEvent(new CustomEvent('filterPeriodChanged', {
+    detail: switcherPeriodList.value,
+  }));
+});
 contentLeftSideCases.addEventListener('click', openFullScreenList);
 
-// document.addEventListener('filterPeriodChanged', (e) => {
-//   switcherPeriodList.value = e.detail;
-//   sortAscending();
-//   renderList(filterCountryByName());
-// });
-// document.addEventListener('filterUnitsChanged', (e) => {
-//   switcherUnitsList.value = e.detail;
-//   sortAscending();
-//   renderList(filterCountryByName());
-// });
-//
-// document.dispatchEvent(new CustomEvent('filterPeriodChanged', {
-//   detail: switcherPeriod.value,
-// }));
+document.addEventListener('filterPeriodChanged', (e) => {
+  switcherPeriodList.value = e.detail;
+  sortAscending();
+  renderList(filterCountryByName());
+});
+document.addEventListener('filterUnitsChanged', (e) => {
+  switcherUnitsList.value = e.detail;
+  sortAscending();
+  renderList(filterCountryByName());
+});
+document.addEventListener('filterRateChanged', (e) => {
+  switcherIndicatorsList.value = e.detail;
+  sortAscending();
+  renderList(filterCountryByName());
+});

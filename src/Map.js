@@ -31,7 +31,9 @@ export default class Map {
   subscribeEventListeners() {
     mapSwitcherRate.addEventListener('change', () => {
       dashboard.rate = mapSwitcherRate.value;
-      console.log('🚀 ~ Map ~ dashboard.rate', dashboard.rate);
+      document.dispatchEvent(new CustomEvent('filterRateChanged', {
+        detail: mapSwitcherRate.value,
+      }));
       this.clearMap();
       this.renderGeojsonLayer();
     });
@@ -64,6 +66,16 @@ export default class Map {
       mapSwitcherUnits.value = e.detail;
       this.clearMap();
       this.renderGeojsonLayer();
+    });
+
+    document.addEventListener('filterRateChanged', (e) => {
+      mapSwitcherRate.value = e.detail;
+      this.clearMap();
+      this.renderGeojsonLayer();
+    });
+
+    document.addEventListener('countryChanged', () => {
+      this.mapToLocate();
     });
   }
 
