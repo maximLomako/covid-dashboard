@@ -4,6 +4,7 @@
 import L from 'leaflet';
 import dashboard from './dashboard';
 import geo from './geoData';
+import gradesObj from './grades';
 
 const mapSwitcherRate = document.querySelector('#map-switcher-rate');
 const mapSwitcherPeriod = document.querySelector('#map-switcher-period');
@@ -11,13 +12,14 @@ const mapSwitcherUnits = document.querySelector('#map-switcher-units');
 
 export default class Map {
   constructor() {
-    // this.currentRate = 'Cases';
     this.map = null;
     this.mapOptions = {
       worldCopyJump: true,
       center: [29, 9],
       zoom: 2,
     };
+    this.colorsCasesAndDeath = ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026'];
+    this.colorsRecovery = ['#FFEDA0', '#d2f202', '#b1cc04', '#68cc04', '#04bd0a', '#02ad07', '#018a06', '#006e04'];
   }
 
   init() {
@@ -82,6 +84,8 @@ export default class Map {
   }
 
   renderGeojsonLayer() {
+    const colorsCasesDeathLegend = this.colorsCasesAndDeath;
+    const colorsRecoveryLegend = this.colorsRecovery;
     const countries = this.dataCountries;
     const currentInd = dashboard.rate;
     let geojson;
@@ -174,6 +178,61 @@ export default class Map {
       };
     }
 
+    const legend = L.control({ position: 'bottomright' });
+    this.legend = legend;
+
+    legend.onAdd = function (map) {
+      const div = L.DomUtil.create('div', 'info legend');
+      let colors;
+      let grades;
+
+      if (currentInd === 'cases' || currentInd === 'deaths') colors = colorsCasesDeathLegend;
+      else if (currentInd === 'recovered') colors = colorsRecoveryLegend;
+
+      switch (currentInd) {
+        case 'deaths': {
+          if (dashboard.currentFilter.isAllPeriod) {
+            if (dashboard.currentFilter.isAbsoluteTerms) grades = gradesObj.gradesDeath;
+            else grades = gradesObj.gradesDeathPer100;
+          } else if (!dashboard.currentFilter.isAllPeriod) {
+            if (dashboard.currentFilter.isAbsoluteTerms) grades = gradesObj.gradesDeathForDay;
+            else grades = gradesObj.gradesDeathForDayPer100;
+          }
+          break;
+        }
+        case 'recovered': {
+          if (dashboard.currentFilter.isAllPeriod) {
+            if (dashboard.currentFilter.isAbsoluteTerms) grades = gradesObj.gradesRecovery;
+            else grades = gradesObj.gradesRecoveryPer100;
+          } else if (!dashboard.currentFilter.isAllPeriod) {
+            if (dashboard.currentFilter.isAbsoluteTerms) grades = gradesObj.gradesRecoveryForDay;
+            else grades = gradesObj.gradesRecoveryForDayPer100;
+          }
+          break;
+        }
+        default: {
+          if (dashboard.currentFilter.isAllPeriod) {
+            if (dashboard.currentFilter.isAbsoluteTerms) grades = gradesObj.gradesCases;
+            else grades = gradesObj.gradesCasesPer100;
+          } else if (!dashboard.currentFilter.isAllPeriod) {
+            if (dashboard.currentFilter.isAbsoluteTerms) grades = gradesObj.gradesCasesForDay;
+            else grades = gradesObj.gradesCasesForDayPer100;
+          }
+          break;
+        }
+      }
+
+      for (let i = 0; i < grades.length; i += 1) {
+        div.innerHTML
+             += `<i style="background:${colors[i]}"></i> ${
+            grades[i]}${grades[i + 1] ? `&ndash;${grades[i + 1]}<br>` : '+'}`;
+      }
+
+      return div;
+    };
+
+    legend.addTo(this.map);
+
     const info = L.control();
     this.info = info;
 
@@ -199,6 +258,7 @@ export default class Map {
         .find((item) => item.countryInfo.iso3 === countryCode);
       dashboard.currentCountry = dataCountry.country;
       document.dispatchEvent(new CustomEvent('countryChanged'));
+      this.mapToLocate();
     };
 
     function highlightFeature(e) {
@@ -236,8 +296,15 @@ export default class Map {
     this.geojsonLayer = geojson;
   }
 
+  mapToLocate() {
+    const dataCountry = this.dataCountries
+      .find((item) => item.country === dashboard.currentCountry);
+    this.map.flyTo([dataCountry.countryInfo.lat, dataCountry.countryInfo.long], 4);
+  }
+
   clearMap() {
     this.geojsonLayer.remove();
     this.info.remove();
+    this.legend.remove();
   }
 }
