@@ -37,7 +37,7 @@ const config = {
           autoSkip: true,
           maxTicksLimit: 12,
           callback(value, index) {
-            return month[index % 27];
+            return month[index % 32];
           },
         },
       }],
